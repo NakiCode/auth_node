@@ -4,7 +4,10 @@
   "description": "Mise en place d'un système d'authentification basé sur node js et express",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "start:prod": "nodemon index.js NODE_ENV=production",
+    "debug": "ndb index.js"
   },
   "repository": {
     "type": "git",

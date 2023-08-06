@@ -93,7 +93,7 @@ const UserSchema = new mongoose.Schema({
     },
   },
   social: {
-    type: Array,
+    type:[String]
   },
   password: {
     type: String,
@@ -130,12 +130,10 @@ const UserSchema = new mongoose.Schema({
   },
   iscreator:{
     type: Boolean,
-    default:true
+    default:false
   },
   passwordChangedAt: Date
 });
-
-exports.tbl_User = mongoose.model("tbl_User", UserSchema);
 
 // LES HOOKS
 UserSchema.pre("save", async function (next) {
@@ -161,3 +159,6 @@ UserSchema.methods.changedPasswordAfter = function(JWTTimestamp){
   }
   return false
 }
+
+const tbl_User = mongoose.model("tbl_User", UserSchema);
+module.exports = tbl_User;

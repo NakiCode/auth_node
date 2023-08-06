@@ -7,7 +7,7 @@ const databaseConnect = require('./config/databaseConfig')
 const app = express();
 
 require("dotenv").config();
-app.use(cors());
+app.use(cors()); 
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -38,6 +38,3 @@ app.listen(PORT, () => {
   console.log(`LE SERVER ECOUTE SUR LE PORT : ${PORT}`);
 })
 
-// DB_URL=mongodb://127.0.0.1/AUTHENTICATE
-// PORT=8000
-// NODE_ENV=development

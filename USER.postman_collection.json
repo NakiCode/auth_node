@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "d305c2fc-d0e6-48e3-a579-e2e962235555",
+		"name": "USER",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27219855",
+		"_collection_link": "https://www.postman.com/lunar-desert-643075/workspace/news-app/collection/27219855-d305c2fc-d0e6-48e3-a579-e2e962235555?action=share&creator=27219855&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "user routes",
+			"item": [
+				{
+					"name": "ADD SOCIAL",
+					"item": [
+						{
+							"name": "Add Social",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"social\":[\"www.google.com\", \"www.facebook.com\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://127.0.0.1:8000/api/v1/users/64cf8ea2d9c002478dbb8a85"
+							},
+							"response": []
+						},
+						{
+							"name": "delete social",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"social\":\"www.facebook.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://127.0.0.1:8000/api/v1/users/64cf8ea2d9c002478dbb8a85"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CREATE USER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "kabika ruseruka",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "nakicode",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "naki0707",
+									"type": "text"
+								},
+								{
+									"key": "passwordconfirm",
+									"value": "naki0707",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "nakicode07@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "0025766320877",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "ELIYA",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "http://127.0.0.1:8000/api/v1/users/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN USER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "nakicode07@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "naki0707",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://127.0.0.1:8000/api/v1/users/signin"
+					},
+					"response": []
+				},
+				{
+					"name": "GET USER",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiI2NGNmYzM2YzhkYzFmYzA4YTE2NzBlZTAiLCJlbWFpbCI6Im5ha2ljb2RlMDdAZ21haWwuY29tIiwiaWF0IjoxNjkxMzM3NTgwLCJleHAiOjE2OTkxMTM1ODB9.kOel0U6ac8Xng0zpeyu3lbqE_Q6WbyN3-3xObayoItA"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": "http://127.0.0.1:8000/api/v1/users/64cfc36c8dc1fc08a1670ee0"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE USER",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/v1/users/delete/64cfc36c8dc1fc08a1670ee0"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -98,22 +98,34 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "Le mot de passe est réquis !"],
-    trim:true,
-    minlength:[8, "Un mot de passe doit comporter au moins 8 caractères"],
-    maxlength:[16, "Le mot de passe est trop long !"],
-    select:false
+    trim: true,
+    minlength: [8, "Un mot de passe doit comporter au moins 8 caractères"],
+    maxlength: [16, "Le mot de passe est trop long !"],
+    select: false,
   },
   passwordconfirm: {
     type: String,
     required: [true, "Le mot de passe de confirmation est requis !"],
-    trim:true,
-    minlength:[8, "Un mot de passe doit comporter au moins 8 caractères"],
-    maxlength:[16, "Le mot de passe est trop long !"],
-    validate:{
-      validator : function(el){
-        return el === this.password
+    trim: true,
+    minlength: [8, "Un mot de passe doit comporter au moins 8 caractères"],
+    maxlength: [16, "Le mot de passe est trop long !"],
+    validate: {
+      validator: function (el) {
+        return el === this.password;
       },
-      message: "Le mot de passe n'est pas conforme !"
-    }
+      message: "Le mot de passe n'est pas conforme !",
+    },
+  },
+  termes: {
+    type: Boolean,
+    default: true,
+  },
+  authentifierPhone: {
+    type: Boolean,
+    default: false,
+  },
+  authentifierEmail: {
+    type: Boolean,
+    default: false,
   },
 });

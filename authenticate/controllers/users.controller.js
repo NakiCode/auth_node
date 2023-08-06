@@ -195,7 +195,7 @@ exports.restrictToAuth = catchAsync( async () => {
     if (!check.authentifierPhone || !check.authentifierEmail) {
       return next(
         new Error(
-          "Vous n'etes pas autorisé à accéder ici Veuillez valide votre email et le numéro de telephone !"
+          "Vous n'etes pas autorisé à accéder ici Veuillez validez votre email et le numéro de telephone !"
         )
       );
     }

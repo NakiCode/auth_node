@@ -130,4 +130,4 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-const tbl_User = mongoose.model('tbl_User', UserSchema)
+exports.tbl_User = mongoose.model('tbl_User', UserSchema)

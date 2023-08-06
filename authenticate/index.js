@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const databaseConnect = require('./config/databaseConfig')
 // IMPORTATION DES MIDDLEWARES
 const interceptor = require('./middleware/errorInterceptor')
+const userRouter = require('./routes/users.route')
 const app = express();
 
 require("dotenv").config();
@@ -31,6 +32,8 @@ app.get('/', (req, res) => {
 });
 // LES MIDDLEWARES
 app.use(interceptor)
+// LES ROUTES
+app.use('/api/v1/users', userRouter)
 databaseConnect();
 
 const PORT = process.env.PORT || 5000

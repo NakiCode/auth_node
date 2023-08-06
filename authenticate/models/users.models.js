@@ -134,21 +134,21 @@ const UserSchema = new mongoose.Schema({
 exports.tbl_User = mongoose.model("tbl_User", UserSchema);
 
 // LES HOOKS
-userSchema.pre("save", async function (next) {
+UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
   this.passwordconfirm = undefined;
   next();
 });
 
-userSchema.methods.correctPassword = async function (
+UserSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changedPasswordAfter = function(JWTTimestamp){
+UserSchema.methods.changedPasswordAfter = function(JWTTimestamp){
   if (this.passwordChangedAt){
     const changeTimestamp = parseInt(
       this.changedPasswordAfter.getTime()/ 1000, 10

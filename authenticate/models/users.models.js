@@ -129,3 +129,5 @@ const UserSchema = new mongoose.Schema({
     default: false,
   },
 });
+
+const tbl_User = mongoose.model('tbl_User', UserSchema)

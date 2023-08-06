@@ -128,6 +128,10 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  iscreator:{
+    type: Boolean,
+    default:true
+  },
   passwordChangedAt: Date
 });
 

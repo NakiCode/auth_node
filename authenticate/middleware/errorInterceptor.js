@@ -4,8 +4,17 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     let statusCode = 500;
     let errorMessage = "Internal Server Error";
     let errors = {...err};
-
+    
     switch (err.constructor) {
+        case err.name === 'JsonWebTokenError':
+            errorMessage = "You are not logged in! Please log in to get access !"
+            break;
+        case err.name === 'TokenExpiredError':
+            errorMessage = "Your token has expired! Please log in again .. !"
+            break;
+        case err.name === 'JWTError':
+            errorMessage = "Invalid token, Please lon in again ... !"
+            break;
         case ValidationError:
             statusCode = 400;
             const errs = Object.values(errors.errors).map(el => el.message)

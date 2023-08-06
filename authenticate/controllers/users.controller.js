@@ -2,14 +2,14 @@ const tbl_User = require("../models/users.models");
 const catchAsync = require("../outils/catch");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
+const mongoose = require('mongoose')
 
-const signToken = (id, email, username) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+const signToken = (key, email) => {
+  return jwt.sign({ key, email }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE_IN,
   });
 };
 // ************************************************************************
-
 exports.userRegistration = catchAsync(async (req, res, next) => {
   const create = await tbl_User.create({
     name: req.body.name,
@@ -19,7 +19,7 @@ exports.userRegistration = catchAsync(async (req, res, next) => {
     password: req.body.password,
     passwordconfirm: req.body.passwordconfirm,
   });
-  const token = signToken(create._id, create.email, create.username);
+  const token = signToken(create._id, create.email);
   res.status(201).json({ data: create, token });
 });
 
@@ -124,30 +124,35 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
 });
 
 exports.signIn = catchAsync(async (req, res, next) => {
-  const { credation, password } = req.body;
-  if (!credation || !password) {
+  const { email, password } = req.body;
+  if (!email || !password) {
     return res
       .status(400)
       .json({ message: "Veuillez entrez vos informations de connexion !" });
   }
   const findUser = await tbl_User.findOne({ email: email }).select("+password");
+  if (!findUser){ return res
+    .status(400)
+    .json({ message: "Vos données d'authentification sont incorrect !" });
+    }
   const correct = findUser.correctPassword(password, findUser.password);
   if (!correct || !findUser) {
     return res
       .status(200)
-      .json({ message: "Vos données de d'authentification sont incorrect !" });
+      .json({ message: "Vos données d'authentification sont incorrect !" });
   }
-  const token = signToken(findUser._id, findUser.email, findUser.username);
-  return res.status(200).json(token);
+  const token = signToken(findUser._id, findUser.email);
+  return res.status(200).json({token:token});
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
   let token;
   if (
     req.headers.authorization &&
-    req.headers.authorization.startWith("Bearer")
+    req.headers.authorization.startsWith("Bearer")
   ) {
-    token = req.headers.authorization.split(" ")[1];
+    token = req.headers.authorization.split(' ')[1];
+    
   }
   if (!token) {
     return res.status(500).json({
@@ -155,7 +160,9 @@ exports.protect = catchAsync(async (req, res, next) => {
     });
   }
   const decoded = promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  const freshUser = await tbl_User.findById(decoded.id);
+  const decodedData = await decoded;
+  const { key} = decodedData;
+  const freshUser = await tbl_User.findById(key);
   if (!freshUser) {
     return next(
       new Error("The token belonging to this user does no loger exists.")
@@ -174,14 +181,14 @@ exports.restrictTo = () => {
   return async (req, res, next) => {
     const user = req.params.id;
     const check = await tbl_User.findOne({ _id: user });
-    if (!check.iscreator) {
+    if (!check.isCreator) {
       return next(new Error("Vous n'etes pas autorisé à accéder ici !"));
     }
     next();
   };
 };
 
-exports.restrictToAuth = () => {
+exports.restrictToAuth = catchAsync( async () => {
   return async (req, res, next) => {
     const user = req.params.id;
     const check = await tbl_User.findOne({ _id: user });
@@ -194,4 +201,4 @@ exports.restrictToAuth = () => {
     }
     next();
   };
-};
+});

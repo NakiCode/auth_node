@@ -39,16 +39,16 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Un email est hautement réquis"],
     trim: true,
-    validate: [validator.isEmail, "Veuillez renseigner un email valide !"],
     validate: {
       validator: function (value) {
         return this.constructor
-          .findOne({ email: value })
-          .exec()
-          .then((email) => !email);
+        .findOne({ email: value })
+        .exec()
+        .then((email) => !email);
       },
       message: "Un utilisateur avec cette email existe déjà !",
     },
+    validate: [validator.isEmail, "Veuillez renseigner un email valide !"],
     lowercase: true,
   },
   phone: {
@@ -92,9 +92,9 @@ const UserSchema = new mongoose.Schema({
       message: "Cette photo de couverture existe déjà !",
     },
   },
-  social: {
-    type:[String]
-  },
+  social:[{
+    type:String
+  }],
   password: {
     type: String,
     required: [true, "Le mot de passe est réquis !"],
@@ -128,7 +128,7 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  iscreator:{
+  isCreator:{
     type: Boolean,
     default:false
   },

@@ -30,10 +30,10 @@ app.use(express.static(path.join(__dirname, "/uploads")));
 app.get('/', (req, res) => {
   res.send("PAGE D'ACCEUIL DU SERVER !");
 });
-// LES MIDDLEWARES
-app.use(interceptor)
 // LES ROUTES
 app.use('/api/v1/users', userRouter)
+// LES MIDDLEWARES
+app.use(interceptor)
 databaseConnect();
 
 const PORT = process.env.PORT || 5000

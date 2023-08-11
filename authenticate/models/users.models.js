@@ -24,7 +24,7 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     required: [true, "Le nom d'utilisateur est requis !"],
     minlength: [2, "Le nom d'utilisateur n'est pas valide !"],
-    maxlength: [55, "Le nom d'utilisateur est trop long"],
+    maxlength: [35, "Le nom d'utilisateur est trop long"],
     validate: {
       validator: function (value) {
         return this.constructor
@@ -37,7 +37,7 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, "Un email est hautement réquis"],
+    required: [true, "Un email est hautement réquis !"],
     trim: true,
     validate: {
       validator: function (value) {
@@ -89,7 +89,7 @@ const UserSchema = new mongoose.Schema({
           .exec()
           .then((couverture) => !couverture);
       },
-      message: "Cette photo de couverture existe déjà !",
+      message: "La photo de couverture existe déjà !",
     },
   },
   social:[{

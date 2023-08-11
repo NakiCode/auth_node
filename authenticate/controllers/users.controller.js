@@ -35,7 +35,7 @@ exports.addSocial = catchAsync(async (req, res, next) => {
   const social = await tbl_User.findOneAndUpdate(
     { _id: req.params.id },
     {
-      $push: { social: accout },
+      $push: { social: [...accout] },
     }
   );
   if (!social) {

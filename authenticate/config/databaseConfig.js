@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
-
 const databaseConnect = () => {
-
   mongoose
     .connect(process.env.DB_URL, {
       useNewUrlParser: true,

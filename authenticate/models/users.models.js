@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: [true, "Le nom d'utilisateur est requis !"],
-    minlength: [2, "Le nom d'utilisateur n'est pas valide !"],
+    minlength: [2, "Le nom d'utilisateur n'est pas valide, il est très court !"],
     maxlength: [55, "Le nom d'utilisateur est trop long"],
     validate: {
       validator: function (value) {
@@ -39,16 +39,16 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Un email est hautement réquis !"],
     trim: true,
+    validate: [validator.isEmail, "Veuillez renseigner un email valide !"],
     validate: {
       validator: function (value) {
         return this.constructor
-        .findOne({ email: value })
-        .exec()
-        .then((email) => !email);
+          .findOne({ email: value })
+          .exec()
+          .then((email) => !email);
       },
       message: "Un utilisateur avec cette email existe déjà !",
     },
-    validate: [validator.isEmail, "Veuillez renseigner un email valide !"],
     lowercase: true,
   },
   phone: {
@@ -92,9 +92,11 @@ const UserSchema = new mongoose.Schema({
       message: "La photo de couverture existe déjà !",
     },
   },
-  social:[{
-    type:String
-  }],
+  social: [
+    {
+      type: String,
+    },
+  ],
   password: {
     type: String,
     required: [true, "Le mot de passe est réquis !"],
@@ -128,11 +130,11 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  isCreator:{
+  isCreator: {
     type: Boolean,
-    default:false
+    default: false,
   },
-  passwordChangedAt: Date
+  passwordChangedAt: Date,
 });
 
 // LES HOOKS
@@ -150,15 +152,16 @@ UserSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-UserSchema.methods.changedPasswordAfter = function(JWTTimestamp){
-  if (this.passwordChangedAt){
+UserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
     const changeTimestamp = parseInt(
-      this.changedPasswordAfter.getTime()/ 1000, 10
+      this.changedPasswordAfter.getTime() / 1000,
+      10
     );
     return JWTTimestamp < changeTimestamp;
   }
-  return false
-}
+  return false;
+};
 
 const tbl_User = mongoose.model("tbl_User", UserSchema);
 module.exports = tbl_User;

@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 const mongoose = require("mongoose");
 
-const signToken = (key, email) => {
+exports.signToken = (key, email) => {
   return jwt.sign(
     {
       key,

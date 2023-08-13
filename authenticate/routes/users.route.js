@@ -2,6 +2,9 @@ const express = require('express')
 const router = express.Router()
 
 const userController = require('../controllers/users.controller')
+const resetPassword = require('../controllers/resetPassword')
+
+router.post('/forgotPassword', resetPassword.forgotPassword)
 
 router.post('/signup', userController.userRegistration)
 router.get('/:id', userController.protect, userController.getUserInfos)

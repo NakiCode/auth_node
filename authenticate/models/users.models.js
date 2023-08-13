@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
+const crypto = require('crypto');
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -135,6 +136,8 @@ const UserSchema = new mongoose.Schema({
     default: false,
   },
   passwordChangedAt: Date,
+  passwordResetToken: String,
+  passwordResetTokenExpires: Date
 });
 
 // LES HOOKS
@@ -162,6 +165,13 @@ UserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   }
   return false;
 };
+
+UserSchema.methods.createPaswordResetToken = function(){
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+  this.passwordResetTokenExpires = Date.now() + 10 * 60 * 1000;
+  return resetToken
+}
 
 const tbl_User = mongoose.model("tbl_User", UserSchema);
 module.exports = tbl_User;

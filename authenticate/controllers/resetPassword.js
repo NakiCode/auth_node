@@ -3,6 +3,16 @@ const catchAsync = require("../outils/catch");
 const tbl_User = require("../models/users.models");
 const usersController = require('../controllers/users.controller')
 
+exports.forgotPassword = catchAsync(async (req, res, next) =>{
+    const user = await tbl_User.findOne({email:req.body.email})
+    if (!user){
+        return next(new Error("There is no user with email address ..."));
+    }
+    const resetToken = await user.createPaswordResetToken()
+    
+    user.save({validateBeforeSave:false})
+})
+
 exports.resetPassword = catchAsync(async (req, res, next) =>{
     const hashToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
     const user = await tbl_User.findOne({passwordResetToken: hashToken, passwordResetExpires: {$gt:Date.now()}});

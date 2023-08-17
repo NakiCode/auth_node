@@ -2,6 +2,7 @@ const crypto = require('crypto')
 const catchAsync = require("../outils/catch");
 const tbl_User = require("../models/users.models");
 const usersController = require('../controllers/users.controller')
+const sendMail = require('../outils/sendEmail')
 
 exports.forgotPassword = catchAsync(async (req, res, next) =>{
     const user = await tbl_User.findOne({email:req.body.email})
@@ -9,9 +10,13 @@ exports.forgotPassword = catchAsync(async (req, res, next) =>{
         return next(new Error("There is no user with email address ..."));
     }
     const resetToken = await user.createPaswordResetToken()
-    
     user.save({validateBeforeSave:false})
+    const resetURL = `${req.protocol}://${req.get('host)}/api/v1/users/resetPassword/${resetToken}`;
 })
+
+
+
+
 
 exports.resetPassword = catchAsync(async (req, res, next) =>{
     const hashToken = crypto.createHash('sha256').update(req.params.token).digest('hex');

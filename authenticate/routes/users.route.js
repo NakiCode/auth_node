@@ -5,6 +5,7 @@ const userController = require('../controllers/users.controller')
 const resetPassword = require('../controllers/resetPassword')
 
 router.post('/forgotPassword', resetPassword.forgotPassword)
+router.patch('/resetPassword/:token', resetPassword.forgotPassword)
 
 router.post('/signup', userController.userRegistration)
 router.get('/:id', userController.protect, userController.getUserInfos)
